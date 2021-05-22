@@ -1,6 +1,3 @@
-import { useRouter } from 'next/router';
-
-//import { getFilteredEvents } from '../../dummy-data';
 import { getFilteredEvents } from '../../helpers/api-util';
 import EventList from "../../components/events/event-list";
 import ResultsTitle from "../../components/events/results-title";
@@ -8,18 +5,6 @@ import Button from "../../components/ui/button";
 import ErrorAlert from "../../components/ui/error-alert";
 
 const FilteredEventsPage = (props) => {
-    const router = useRouter();
-    /*const yearAndMonth = router.query.date;
-
-    if(!yearAndMonth) {
-        return <p className={'center'}>Loading....</p>
-    }
-
-    const filteredYear = yearAndMonth[0];
-    const filteredMonth = yearAndMonth[1];
-
-    const numYear = +filteredYear;
-    const numMonth = +filteredMonth;*/
 
     if(props.hasError){
         return (
