@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Head from "next/head";
 
 import { getAllEvents } from '../../helpers/api-util';
 // import { getAllEvents } from '../../dummy-data';
@@ -17,6 +18,10 @@ const AllEventsPage = (props) => {
 
     return(
         <>
+            <Head>
+                <title>All Events</title>
+                <meta name={'description'} content={'find events'}/>
+            </Head>
             <EventsSearch onSearch={findEventsHandler}/>
             <EventList events={events}/>
         </>
