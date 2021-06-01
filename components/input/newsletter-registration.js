@@ -1,12 +1,18 @@
+import { useState } from 'react';
+import axios from "axios";
+
 import classes from './newsletter-registration.module.css';
 
 function NewsletterRegistration() {
-    function registrationHandler(event) {
+    const [email,setEmail] = useState('');
+
+    async function registrationHandler(event) {
         event.preventDefault();
 
-        // fetch user input (state or refs)
-        // optional: validate input
-        // send valid data to API
+        const res = await axios.post('http://localhost:3000/api/newsletter',{
+            email: email
+        });
+        console.log(res.data);
     }
 
     return (
@@ -19,6 +25,8 @@ function NewsletterRegistration() {
                         id='email'
                         placeholder='Your email'
                         aria-label='Your email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <button>Register</button>
                 </div>

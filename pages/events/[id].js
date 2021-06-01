@@ -3,6 +3,7 @@ import Head from "next/head";
 import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
+import Comments from "../../components/input/comments";
 
 import { getEventById, getFeaturedEvents } from '../../helpers/api-util.js';
 
@@ -28,6 +29,7 @@ const EventDetailPage = (props) => {
                 image={ selectedEvent.image } imageAlt={ selectedEvent.title }/>
             <EventContent>
                 <p>{ selectedEvent.description }</p>
+                <Comments eventId={selectedEvent.id}/>
             </EventContent>
         </>
     )

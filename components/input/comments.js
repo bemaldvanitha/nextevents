@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from "axios";
 
 import CommentList from './comment-list';
 import NewComment from './new-comment';
@@ -13,8 +14,13 @@ function Comments(props) {
         setShowComments((prevStatus) => !prevStatus);
     }
 
-    function addCommentHandler(commentData) {
-        // send data to API
+    async function addCommentHandler(commentData) {
+        const response = await axios.post(`http://localhost:3000/api/comment/${eventId}`, {
+            email: commentData.email,
+            name: commentData.name,
+            text: commentData.text
+        });
+
     }
 
     return (
