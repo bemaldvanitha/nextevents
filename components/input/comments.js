@@ -20,6 +20,7 @@ function Comments(props) {
             name: commentData.name,
             text: commentData.text
         });
+        console.log(response.data);
 
     }
 
