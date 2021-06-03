@@ -1,10 +1,25 @@
 import { MongoClient } from 'mongodb';
 
+async function connectDatabase(){
+    const client = await MongoClient.connect('mongodb+srv://bemaldvanitha:Bemal123@devconnector.2jyrs.mongodb.net/nextevents?retryWrites=true&w=majority');
+    return client;
+}
+
+async function insertDocument(client,document){
+    const db = client.db();
+    const result = await db.collection('comments').insertOne(document);
+    return result;
+}
+
 const handler = async (req,res) => {
     const eventId = req.query.eventId;
+    let client;
 
-    const client = await MongoClient.connect('mongodb+srv://bemaldvanitha:Bemal123@devconnector.2jyrs.mongodb.net/nextevents?retryWrites=true&w=majority');
-    const db = client.db();
+    try{
+        client = await connectDatabase();
+    }catch (err){
+        return res.status(500).json({ message: 'Connecting to db fail' });
+    }
 
     if(req.method === 'POST'){
         const { email, name, text } = req.body;
@@ -20,17 +35,29 @@ const handler = async (req,res) => {
             eventId
         };
 
-        const result = await db.collection('comments').insertOne(newComment);
-        newComment.id = result.insertedId;
+        try{
+            const result = await insertDocument(client,newComment);
+            newComment._id = result.insertedId;
+        }catch (err){
+            return res.status(500).json({ message: 'insert comment fail' });
+        }
 
         return res.status(201).json({ msg: 'hello', comment: newComment });
 
     }else if(req.method === 'GET'){
 
         const db = client.db();
-        const documents = await db.collection('comments').find().sort({
-            _id: -1
-        }).toArray();
+        let documents;
+
+        try{
+
+            documents = await db.collection('comments').find().sort({
+                _id: -1
+            }).toArray();
+
+        }catch (err) {
+            return res.status(500).json({ message: 'get document fail' });
+        }
 
         return res.status(200).json({ comments: documents });
     }
