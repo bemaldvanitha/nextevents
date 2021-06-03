@@ -27,12 +27,12 @@ const handler = async (req,res) => {
 
     }else if(req.method === 'GET'){
 
-        const dummyList = [
-            { id: 'c1', name: 'bemal', text: 'hello' },
-            { id: 'c2', name: 'dvanitha', text: 'hello 2' },
-        ]
+        const db = client.db();
+        const documents = await db.collection('comments').find().sort({
+            _id: -1
+        }).toArray();
 
-        return res.status(200).json({ comments: dummyList });
+        return res.status(200).json({ comments: documents });
     }
 
     await client.close();
